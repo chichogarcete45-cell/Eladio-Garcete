@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Inventario - Laboratorio Informático</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase CDN Client -->
+  <script src="sb_publishable_0fEsG1m_PVKdLOZDrLGeAQ_McjE6M-R"></script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <h1>⚙️ Sistema de Gestión de Lab. Informático</h1>
+      <p>Colegio Nacional E.M.D. Asunción Escalada - BTI</p>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    
+    <!-- Notificaciones -->
+    <div id="alert-box" class="alert hidden"></div>
+
+    <!-- Panel de Formulario -->
+    <section class="card">
+      <h2 id="form-title">➕ Registrar Nuevo Componente</h2>
+      <form id="component-form">
+        <input type="hidden" id="component-id">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="codigo">Código (*)</label>
+            <input type="text" id="codigo" placeholder="Ej: ARD001" required>
+          </div>
+
+          <div class="form-group">
+            <label for="nombre">Nombre (*)</label>
+            <input type="text" id="nombre" placeholder="Ej: Arduino Uno R3" required>
+          </div>
+
+          <div class="form-group">
+            <label for="categoria">Categoría (*)</label>
+            <select id="categoria" required>
+              <option value="">-- Seleccionar --</option>
+              <option value="Arduino">Arduino</option>
+              <option value="Sensores">Sensores</option>
+              <option value="Computadoras">Computadoras</option>
+              <option value="Monitores">Monitores</option>
+              <option value="Periféricos">Periféricos</option>
+              <option value="Componentes electrónicos">Componentes electrónicos</option>
+              <option value="Herramientas">Herramientas</option>
+              <option value="Redes">Redes</option>
+              <option value="Otros">Otros</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="marca">Marca (*)</label>
+            <input type="text" id="marca" placeholder="Ej: Elegoo / Genérico" required>
+          </div>
+
+          <div class="form-group">
+            <label for="cantidad">Cantidad (*)</label>
+            <input type="number" id="cantidad" min="0" value="1" required>
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado (*)</label>
+            <select id="estado" required>
+              <option value="Disponible">Disponible</option>
+              <option value="En uso">En uso</option>
+              <option value="Reparación">Reparación</option>
+              <option value="Baja">Baja</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="descripcion">Descripción / Observaciones</label>
+          <textarea id="descripcion" rows="2" placeholder="Detalles adicionales del equipo..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="btn-save" class="btn btn-primary">Guardar Registro</button>
+          <button type="button" id="btn-cancel" class="btn btn-secondary hidden">Cancelar Edición</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Panel de Listado y Búsqueda -->
+    <section class="card">
+      <h2>📋 Inventario de Equipos</h2>
+
+      <!-- Filtros -->
+      <div class="filter-grid">
+        <div class="form-group">
+          <label for="search-input">Buscar (Código, Nombre, Marca):</label>
+          <input type="text" id="search-input" placeholder="Escriba para buscar...">
+        </div>
+
+        <div class="form-group">
+          <label for="filter-categoria">Filtrar por Categoría:</label>
+          <select id="filter-categoria">
+            <option value="">Todas las categorías</option>
+            <option value="Arduino">Arduino</option>
+            <option value="Sensores">Sensores</option>
+            <option value="Computadoras">Computadoras</option>
+            <option value="Monitores">Monitores</option>
+            <option value="Periféricos">Periféricos</option>
+            <option value="Componentes electrónicos">Componentes electrónicos</option>
+            <option value="Herramientas">Herramientas</option>
+            <option value="Redes">Redes</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="filter-estado">Filtrar por Estado:</label>
+          <select id="filter-estado">
+            <option value="">Todos los estados</option>
+            <option value="Disponible">Disponible</option>
+            <option value="En uso">En uso</option>
+            <option value="Reparación">Reparación</option>
+            <option value="Baja">Baja</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Marca</th>
+              <th>Cantidad</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="inventory-table-body">
+            <tr>
+              <td colspan="7" class="text-center">Cargando datos desde Supabase...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
